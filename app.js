@@ -7,12 +7,13 @@ app.set('view engine', 'ejs');
 
 app.get("/", function(req, res) {
   var today=new Date();
-  var currentDay=today.getDay();
-  if(currentDay===6||currentDay===0){
-    res.sendFile(__dirname+"/weekday.html");
+  var currentDay = today.getDay();
+  
+  if(currentDay === 6 || currentDay === 0){
+    res.send("great its a weekend");
   }
   else{
-    res.sendFile(__dirname+"/weekend.html");
+    res.sendFile(__dirname+"/index.html");
   }
 
 });
