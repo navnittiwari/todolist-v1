@@ -3,52 +3,33 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+var items = ["buy food", "cook food", "eat food"];
+
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/", function (req, res) {
+  
   var today = new Date();
-  var currentDay = today.getDay();
 
-  var day = "";
+  var options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  };
 
-  switch (currentDay) {
-    case 0:
-      day = "sunday";
-      break;
+  var day = today.toLocaleDateString("en-US", options);
 
-    case 1:
-      day = "monday";
-      break;
-
-    case 2:
-      day = "tuesday";
-      break;
-
-    case 3:
-      day = "wednesday";
-      break;
-
-    case 4:
-      day = "thursday";
-      break;
-
-    case 5:
-      day = "friday";
-      break
-
-      case 6:
-        day="saturday";
-        break;
-
-    default:
-      console.log("error! current day is: "+currentDay);
-  }
-
-  res.render("list", {
-    kindOfDay: day
-  });
+  res.render("list", {kindOfDay: day, newListItems: items});
 
 });
+
+app.post("/", function(req, res){
+  var item = req.body.newItem;
+  items.push(item);
+  res.redirect("/");
+})
 
 
 
