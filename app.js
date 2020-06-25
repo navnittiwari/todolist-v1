@@ -30,12 +30,19 @@ app.get("/", function (req, res) {
 
 app.post("/", function(req, res){
   let item = req.body.newItem;
-  items.push(item);
-  res.redirect("/");
+  if(req.body.list === "work")
+  {
+    workItems.push(item);
+    res.redirect("/work");
+  }
+  else{
+    items.push(item);
+    res.redirect("/");
+  }
 })
 
 app.get("/work", function(req, res){
-  res.render("list", {listTitle:"work List", newListItems:workItems});
+  res.render("list", {listTitle:"work List", newListItems: workItems});
 });
 
 app.post("/work", function(req, res){
@@ -44,7 +51,9 @@ app.post("/work", function(req, res){
   res.redirect("/work");
 });
 
-
+app.get("/about", function(req, res){
+  res.render("about");
+});
 
 app.listen(3000, function () {
   console.log("server started on port 3000");
